@@ -1,0 +1,18 @@
+#!/bin/bash
+reset=`tput sgr0`
+red=`tput setaf 1`
+green=`tput setaf 2`
+
+if [ -z $1 ]; then
+    echo "${red}Please supply a taget."
+    exit 1
+fi
+
+l=(`ps ax | grep $1 | grep -v grep | grep -v $0 | awk '{$1=$1};1' | cut -d' ' -f1 | tr '\n' ' '`)
+if `kill ${l[@]} &> /dev/null`; then
+    echo "${green}Killed ${#l[@]} application(s) with the name $1.${reset}"
+    exit 0
+else
+    echo "${red}Could not find any applications with the name $1.${reset}"
+    exit 1
+fi

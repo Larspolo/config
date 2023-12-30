@@ -1,0 +1,28 @@
+#!/bin/bash
+reset=`tput sgr0`
+red=`tput setaf 1`
+green=`tput setaf 2`
+blue=`tput setaf 6`
+
+if [[ $# -eq 0 ]]; then
+    echo "Please supply a brightness value."
+    exit 1
+fi
+echo -ne "${blue}Please Wait...${reset}\r"
+brightness=$1
+screens=$((sudo ddccontrol -p 1>&1 2>/dev/null) | grep "Device: dev:/dev/")
+worked=0
+while read -r line; do
+    sudo ddccontrol -r 0x10 ${line##* } -w $brightness &> /dev/null
+    if [[ $? -ne 0 ]]; then
+        worked=1
+    fi
+done <<< $screens
+
+if [[ worked -eq 0 ]]; then
+    echo "${green}Brightness set to $1 ${reset}"
+    exit 0
+else
+    echo "${red}Could not change the brightness.${reset}"
+    exit 1
+fi;

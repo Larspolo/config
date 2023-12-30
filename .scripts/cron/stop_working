@@ -1,0 +1,7 @@
+#!/bin/bash
+export DISPLAY=:0
+
+if ps ax | grep -E 'atom|vim|jupyter' | grep -v grep; then
+    i3lock -c 000000
+    notify-send -t 18000 "Stop" "Its 17:00, you are done working"
+fi

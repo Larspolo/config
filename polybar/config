@@ -1,0 +1,237 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;==========================================================
+
+[colors]
+;background = ${xrdb:color0:#222}
+background = #222
+background-alt = #444
+;foreground = ${xrdb:color7:#222}
+foreground = #dfdfdf
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+ 
+[c]
+black = #282a2e
+black2 = #373b41
+red = #a54242
+red2 = #cc6666
+green = #8c9440
+green2 = #b5bd68
+yellow = #de935f
+yellow2 = #f0c674
+blue = #5f819d
+blue2 = #81a2be
+magenta = #85678f
+magenta2 = #b294bb
+cyan = #5e8d87
+cyan2 = #8abeb7
+white = #c5c8c6
+white2 = #707880
+
+background = #323234
+background-mods = #${c.background}
+border = ${c.background}
+foreground = ${c.white}
+foreground-alt = ${c.yellow}
+primary = ${c.cyan}
+secondary = ${c.blue}
+alert = ${c.red}
+
+[globals]
+padding = 2
+offset = 1
+
+[bar/small]
+monitor = ${env:MONITOR:eDP-1}
+width = 100%
+height = 16
+font-0 = Ubuntu:size=8;2
+font-1 = "Font Awesome 5":size=8;2
+font-2 = Font Awesome 5:size=8;2
+font-3 = Ubuntu Mono derivative Powerline:size=15;4
+border-left-size = ${globals.offset}
+border-top-size = ${globals.offset}
+border-right-size = ${globals.offset}
+border-color = ${c.border}
+background = ${c.background}
+modules-left = i4
+modules-center = date
+;modules-right = temperature battery speed_eth speed_wifi cpu memory 
+modules-right = temperature wifi cpu memory 
+tray-position = right
+separator = " "
+
+[module/corona]
+type = custom/script
+exec = $HOME/.scripts/corona_infections_per_day.sh
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+tail = true
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC1
+full-at = 98
+
+[module/i4]
+type = custom/script
+exec = $HOME/.scripts/poly_workspaces.py
+tail = true
+
+[module/speed_wifi]
+type = internal/network
+interface = enp0s31f6
+
+interval = 3
+;udspeed-minwidth = 5
+;%downspeed:min:max% and %upspeed:min:max% = 5
+accumulate-stats = true
+unknown-as-up = true
+format-background = ${c.background}
+format-foreground = ${c.foreground}
+format-padding = ${globals.padding}
+
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+format-packetloss = <animation-packetloss> <label-connected>
+
+label-connected = %downspeed:9% %upspeed:9%
+label-connected-foreground = ${c.foreground}
+label-disconnected = not connected
+label-disconnected-foreground = ${c.alert}
+
+animation-packetloss-0 = ⚠
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 📶
+animation-packetloss-1-foreground = #000000
+; Framerate in milliseconds
+animation-packetloss-framerate = 500
+
+[module/speed_eth]
+type = internal/network
+interface = enp4s0
+
+interval = 3
+;udspeed-minwidth = 5
+; %downspeed:min:max% and %upspeed:min:max% = 5
+accumulate-stats = true
+unknown-as-up = true
+format-background = ${c.background}
+format-foreground = ${c.foreground}
+format-padding = ${globals.padding}
+
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+format-packetloss = <animation-packetloss> <label-connected>
+
+label-connected = %downspeed:9% %upspeed:9%
+label-connected-foreground = ${c.foreground}
+label-disconnected = not connected
+label-disconnected-foreground = ${c.alert}
+
+animation-packetloss-0 = ⚠
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 📶
+animation-packetloss-1-foreground = #000000
+; Framerate in milliseconds
+animation-packetloss-framerate = 500
+
+[module/date]
+type = internal/date
+
+format-background = ${c.background}
+format-foreground = ${c.foreground}
+format-padding = ${globals.padding}
+
+interval = 1.0
+date = "  %a %d %b %H:%M  "
+date-alt = "  %A, %d %B %Y  %H:%M:%S  "
+
+[module/cpu]
+type = internal/cpu
+interval = 10
+
+format = <ramp-coreload>
+format-background = ${c.background}
+format-foreground = ${c.foreground}
+format-padding = ${globals.padding}
+
+ramp-coreload-0 = ▁
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+ramp-coreload-7 = █
+
+[module/memory]
+type = internal/memory
+format-background = ${c.background}
+format-foreground = ${c.foreground}
+format-padding = ${globals.padding}
+format-offset = ${globals.offset}
+interval = 3
+format = <label>
+label = %gb_used%
+
+[module/powermenu]
+type = custom/menu
+
+format-offset = ${globals.offset}
+format-background = ${c.background}
+format-foreground = ${c.foreground}
+format-padding = ${globals.padding}
+
+label-open = 
+label-open-foreground = ${colors.foreground}
+label-close = 
+label-close-foreground = ${colors.red}
+label-separator = "  "
+label-separator-foreground = ${colors.foreground}
+
+menu-0-0 = 
+menu-0-0-exec = menu-open-1
+menu-0-1 = 
+menu-0-1-exec = menu-open-2
+menu-0-2 = 
+menu-0-2-exec = menu-open-3
+
+menu-1-0 = reboot
+menu-1-0-exec = reboot
+menu-1-1 = cancel
+menu-1-1-exec = menu-open-0
+
+menu-2-0 = power off
+menu-2-0-exec = backup && init 0
+menu-2-1 = cancel
+menu-2-1-exec = menu-open-0
+
+menu-3-0 = log out
+menu-3-0-exec = i3-msg exit
+menu-3-1 = cancel
+menu-3-1-exec = menu-open-0
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+

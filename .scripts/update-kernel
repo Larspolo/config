@@ -1,0 +1,37 @@
+#!/bin/bash
+declare -r COLORS_SUPPORTED="`(tput colors) 2>/dev/null || echo 0`"
+
+if [ "$COLORS_SUPPORTED" -ge "8" ]; then
+    reset=`tput sgr0`
+    red=`tput setaf 1`
+    green=`tput setaf 2`
+    blue=`tput setaf 6`
+else
+    reset=""
+    red=""
+    green=""
+    blue=""
+fi
+
+echo -ne "${blue}Please Wait...${reset}\r"
+
+command -v ukuu >/dev/null 2>&1
+if [[ $? -eq 1 ]]; then
+    sudo add-apt-repository -y ppa:teejee2008/ppa &> /dev/null &&
+    sudo apt-get update 2>&1 1>& /dev/null &&
+    sudo apt-get install -y ukuu &> /dev/null
+fi
+
+sudo ukuu --check | grep "No updates" &> /dev/null
+if [[ $? -eq 1 ]]; then
+    echo "${green}Updates found.${reset}"
+    echo -ne "${blue}Updating kernel...${reset}\r"
+    sudo ukuu --install-latest --yes &> /dev/null
+    echo -ne "${blue}Removing old kernels...${reset}\r"
+    sudo ukuu --purge-old-kernels --yes &> /dev/null
+    echo "${green}Everything is set, reboot required.${reset}"
+    exit 0
+else
+    echo "${blue}No updates found${reset}"
+    exit 1
+fi

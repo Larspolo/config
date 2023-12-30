@@ -1,0 +1,51 @@
+#!/bin/bash
+reset=`tput sgr0`
+red=`tput setaf 1`
+green=`tput setaf 2`
+blue=`tput setaf 6`
+
+if [ -z "$1" ]; then
+    name="Windoos"
+else
+    name=$1
+fi
+
+function switch {
+    # xrandr --output HDMI-2 --off
+    sudo ddccontrol -r 0x60 dev:/dev/i2c-0 -w 4 &> /dev/null
+    echo "Switching screen"
+}
+function rl {
+    back=${pwd}
+    cd ~/Apps/rl_tracker/
+    python3 rl_tracker.py Larspolo stanbroek yimulei
+    cd ${back}
+}
+function print_help {
+    echo "Available commands are:"
+    echo "h/help: Print this help menu"
+    echo "s/switch: Switch the screen to the VM"
+    echo "q/quit: Quit the VM"
+}
+
+echo "Starting the VM"
+sudo virsh start ${name}
+nordvpn d
+echo "Booting $name"
+sleep 30
+switch
+sleep 20
+barrier 192.168.122.20
+while : ; do
+    read  -p "${blue}${name}${reset}: " input
+    if [ $input == "s" ] || [ $input == "switch" ]; then switch;
+    elif [ $input == "rl" ] || [ $input == "rl_tracker" ]; then rl;
+    elif [ $input == "shutdown" ] || [ $input == "q" ] || [ $input == "quit" ]; then break;
+    else print_help
+    fi
+done;
+echo "${red}Shutting down${reset}"
+xrandr --output HDMI-2 --mode 1920x1080 --right-of HDMI-1
+sudo virsh shutdown ${name}
+/home/polo/Informatica/scripts/kill-application synergyc
+sleep 8

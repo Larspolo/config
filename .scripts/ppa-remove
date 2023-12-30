@@ -1,0 +1,24 @@
+#!/bin/bash
+reset=`tput sgr0`
+red=`tput setaf 1`
+green=`tput setaf 2`
+blue=`tput setaf 6`
+echo -ne "${blue}Please Wait...${reset}\r"
+sudo apt-get update | grep "Err:" | cut -d' ' -f 2 > /tmp/ppa_404_error.txt
+worked=0
+while read -r line; do
+    if [ "sudo add-apt-repository -r ppa:${line:11}" == "" ]; then
+        echo "${blue}Removed:${reset} ${line}"
+    else
+        echo "${red}Failed to remove:${reset} ${line}"
+        worked=1
+    fi
+done < "/tmp/ppa_404_error.txt"
+
+if [[ worked -eq 0 ]]; then
+    echo "${green}Everything is removed.${reset}"
+    exit 0
+else
+    echo "${red}Something went wrong.${reset}"
+    exit 1
+fi

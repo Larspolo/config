@@ -1,0 +1,7 @@
+#!/bin/bash
+export DISPLAY=:0
+
+if ps ax | grep -E 'atom|vim|jupyter|/usr/share/code/code' | grep -v grep; then
+    i3lock -c 000000
+    notify-send -t 18000 "Look away" "Look away for 20 seconds."
+fi
