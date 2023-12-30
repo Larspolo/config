@@ -12,6 +12,7 @@ The project has the following structure:
 i3  # i3 configuration files, will be moved to $HOME/.config/i3
 polybar  # polybar configuration files, will be moved to $HOME/.config/polybar
 .scripts  # miscellaneous scripts, will be moved to $HOME/.scripts
+.fonts  # used fonts, will be moved to $HOME/.fonts
 .zsh_aliases  # containing useful zsh aliases, will be moved to $HOME/.zsh_aliases
 .zshrc  # main zsh file, links to .zsh_aliases, will be moved to $HOME/.zshrc
 ```
