@@ -16,3 +16,15 @@ install:
 	ln -sf $(PWD)/.scripts $(HOME)/
 	ln -sf $(PWD)/.fonts $(HOME)/
 	@echo "Done!"
+
+removeBackups:
+	@echo "Are you sure you want to remove the backups? Press enter to continue"
+	@read -r a
+	@echo "Removing backups..."
+	rm -rf $(HOME)/.zshrc.bak
+	rm -rf $(HOME)/.zsh_aliases.bak
+	rm -rf $(HOME)/.config/polybar.bak
+	rm -rf $(HOME)/.config/i3.bak
+	rm -rf $(HOME)/.scripts.bak
+	rm -rf $(HOME)/.fonts.bak
+	@echo "Done!"
