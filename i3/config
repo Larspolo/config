@@ -155,7 +155,7 @@ exec_always --no-startup-id feh --randomize --bg-scale ~/Pictures/wallpapers/*
 
 # Custom autostart applications
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id python3 $HOME/.scripts/switch_workspace_space.py > /tmp/workspace.log
+exec_always --no-startup-id python3 $HOME/.config/polybar/switch_workspaces.py > /tmp/workspace.log
 exec xrandr --output DVI-D-1 --right-of HDMI-1
 
 # Color palette used for the terminal ( $HOME/.Xresources file )

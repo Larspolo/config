@@ -42,37 +42,6 @@ def get_last_index(section):
     return i
 
 
-#  def rename_workspace(name, section, index):
-#      if section not in F_KEYS:
-#          section = 'F1'
-#          index = get_last_index(section) + 1
-#
-#      command = f'rename workspace {name} to {values_to_name(section, index)}'
-#      if int(name[-1]) != int(index):
-#          print("======", end='')
-#          print("i3 command: ", command)
-#
-#      resp = i3.command(command)
-#
-#      if not resp[0].success:
-#          index = get_last_index(section) + 1
-#          resp = i3.command(f'rename workspace {name} to {values_to_name(section, index)}')
-#
-#          if not resp[0].success:
-#              print(name, 'could not be renamed to', values_to_name(section, index))
-#              raise Exception(resp[0]['error'])
-#
-#      print(name, 'renamed to', values_to_name(section, index))
-
-
-#  def on_workspace_move(self=None, e=None):
-#      workspace = i3.get_tree().find_focused().workspace()
-#      name = workspace.name
-#      print("WS NAME: ", name)
-#      section, index = name_to_values(name)
-#
-#      index = get_last_index(section) + 1
-#      rename_workspace(name, section, index)
 def rename_workspace(name, env, section, index):
     if section not in F_KEYS:
         section = "F1"

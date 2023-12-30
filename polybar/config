@@ -91,7 +91,7 @@ full-at = 98
 
 [module/i4]
 type = custom/script
-exec = $HOME/.scripts/poly_workspaces.py
+exec = $HOME/.config/polybar/print_workspaces.py
 tail = true
 
 [module/speed_wifi]
