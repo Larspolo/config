@@ -174,8 +174,7 @@ def print_bar(self=None, e=None):
             [
                 set_bg_color(COLORS[0]),
                 section,
-                workspaces,
-                reset_colors(),
+                workspaces + reset_colors(),
             ]
         )
         for section, workspaces in bar.items()
