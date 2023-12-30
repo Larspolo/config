@@ -22,7 +22,7 @@ ICON_MAP = [
         "weight": 3,
     },
     {"names": ["Firefox", "firefox"], "icon": "", "weight": 3},
-    {"names": ["Atom", "code", "Code", "vscode"], "icon": "", "weight": 1},
+    {"names": ["Atom", "vim", "code", "vscode", "Code"], "icon": "", "weight": 10},
     {"names": ["Evince"], "icon": "", "weight": 2},
     {"names": ["Pinta", "Gimp"], "icon": "", "weight": 3},
     {"names": ["DBeaver"], "icon": "", "weight": 3},
@@ -40,7 +40,6 @@ ICON_MAP = [
         "weight": 3,
     },
     {"names": ["Nautilus", "org.gnome.Nautilus"], "icon": "", "weight": 3},
-    {"names": ["vim", "code", "vs-code", "Code"], "icon": "", "weight": 10},
 ]
 
 F_KEYS = ["F1", "F2", "F3", "F4"]

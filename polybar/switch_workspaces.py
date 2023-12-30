@@ -31,11 +31,14 @@ def values_to_name(env, section, index):
     return "~".join([env, section, str(index)])
 
 
-def get_last_index(section):
+def get_last_index(env, section):
     i = 0
     for workspace in i3.get_workspaces():
         try:
-            if name_to_values(workspace.name)[1] == section:
+            if (
+                name_to_values(workspace.name)[1] == section
+                and env == name_to_values(workspace.name)[0]
+            ):
                 i += 1
         except Exception:
             continue
@@ -122,6 +125,7 @@ def on_binding_run(self=None, e=None):
 
         # Open rofi in new workspace
         elif e.binding.symbol == "d":
+            print("hi")
             index = get_last_index(env, section) + 1
             i3.command(f"workspace {values_to_name(env, section, index)}")
             i3.command("exec rofi -show run")
