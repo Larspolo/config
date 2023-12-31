@@ -1,8 +1,7 @@
-alias zshconfig="vim ~/.zsh_aliases"
+alias zshconfig="vim ~/.config/zsh/aliases"
 alias i3config="vim ~/.config/i3/config"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias dc="docker-compose"
-alias ss="maim -s | xclip -selection clipboard -t image/png"
 alias idockers="idockers"
 alias pgologs='~/scripts/pgologs.sh'
 alias dstopall='docker stop $(docker ps -q)'
@@ -16,5 +15,6 @@ alias ac='sudo apt autoclean -y && sudo apt autoremove -y'
 alias gr='grep -irn --exclude-dir={vendor,node_modules,storage/logs,storage/framework}'
 alias fixstyle="git diff --name-only --cached | tr '\n' ' ' | xargs php -d memory_limit=512M vendor/bin/php-cs-fixer fix $1 -v"
 alias sact="source venv/bin/activate || source ../venv/bin/activate"
-
-export PATH=$HOME/.scripts:$PATH
+alias p="python3"
+alias please="sudo"
+alias plz="sudo"

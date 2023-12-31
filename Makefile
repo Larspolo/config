@@ -1,30 +1,30 @@
+configFolders = zsh polybar i3
+homeConfigFolders = .scripts .fonts
+
 install:
 	@echo "This will overwrite your existing configuration files in your home directory. Press enter to continue"
 	@read -r a
 	@echo "Installing..."
-	mv -f $(HOME)/.zshrc $(HOME)/.zshrc.bak
-	mv -f $(HOME)/.zsh_aliases $(HOME)/.zsh_aliases.bak
-	mv -f $(HOME)/.config/polybar $(HOME)/.config/polybar.bak
-	mv -f $(HOME)/.config/i3 $(HOME)/.config/i3.bak
-	mv -f $(HOME)/.scripts $(HOME)/.scripts.bak
-	mv -f $(HOME)/.fonts $(HOME)/.fonts.bak
-
+	for folder in $(configFolders); do \
+		mv -f $(HOME)/.config/$$folder $(HOME)/.config/$$folder.bak; \
+		ln -sf $(PWD)/$$folder $(HOME)/.config/; \
+	done
+	for folder in $(homeConfigFolders); do \
+		mv -f $(HOME)/$$folder $(HOME)/$$folder.bak; \
+		ln -sf $(PWD)/$$folder $(HOME)/; \
+	done
 	ln -sf $(PWD)/.zshrc $(HOME)/.zshrc
-	ln -sf $(PWD)/.zsh_aliases $(HOME)/.zsh_aliases
-	ln -sf $(PWD)/polybar $(HOME)/.config/
-	ln -sf $(PWD)/i3 $(HOME)/.config/
-	ln -sf $(PWD)/.scripts $(HOME)/
-	ln -sf $(PWD)/.fonts $(HOME)/
 	@echo "Done!"
 
 removeBackups:
 	@echo "Are you sure you want to remove the backups? Press enter to continue"
 	@read -r a
 	@echo "Removing backups..."
+	for folder in $(configFolders); do \
+		rm -rf $(HOME)/.config/$$folder.bak; \
+	done
+	for folder in $(homeConfigFolders); do \
+		rm -rf $(HOME)/$$folder.bak; \
+	done
 	rm -rf $(HOME)/.zshrc.bak
-	rm -rf $(HOME)/.zsh_aliases.bak
-	rm -rf $(HOME)/.config/polybar.bak
-	rm -rf $(HOME)/.config/i3.bak
-	rm -rf $(HOME)/.scripts.bak
-	rm -rf $(HOME)/.fonts.bak
 	@echo "Done!"
