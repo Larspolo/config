@@ -8,14 +8,11 @@ This project contains a collection of scripts and configuration files for my Lin
 
 The project has the following structure:
 
-```
-i3  # i3 configuration files, will be moved to $HOME/.config/i3
-polybar  # polybar configuration files, will be moved to $HOME/.config/polybar
-.scripts  # miscellaneous scripts, will be moved to $HOME/.scripts
-.fonts  # used fonts, will be moved to $HOME/.fonts
-.zsh_aliases  # containing useful zsh aliases, will be moved to $HOME/.zsh_aliases
-.zshrc  # main zsh file, links to .zsh_aliases, will be moved to $HOME/.zshrc
-```
+Files and folders following the scheme `.[name]` will be installed in `$HOME/.[name]`
+Folders following the scheme `[name]` will be installed in `$HOME/.config/[name]`
+
+Where the name describes the program that the configs files are for.
+
 ## Usage
 
 To install the scripts, use the following command:
