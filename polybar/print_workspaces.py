@@ -128,13 +128,18 @@ def set_text_color(ws):
 
 
 def set_border(ws):
-    i = (get_index(ws) - 0) % len(COLORS)
-    prev_i = (i - 1) % len(COLORS)
+    i = get_index(ws)
+    current = (i - 1) % len(COLORS)
+    # On the first workspace, we don't want a border
+    if i == 1:
+        return set_bg_color(COLORS[current]) + set_text_color(ws)
+
+    prev = (i - 2) % len(COLORS)
     return "".join(
         [
-            set_bg_color(COLORS[i]) + set_fg_color(COLORS[prev_i]),
+            set_bg_color(COLORS[current]) + set_fg_color(COLORS[prev]),
             "",
-            set_bg_color(COLORS[i]) + set_text_color(ws),
+            set_bg_color(COLORS[current]) + set_text_color(ws),
         ]
     )
 
