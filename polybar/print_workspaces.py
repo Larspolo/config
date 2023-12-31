@@ -10,7 +10,11 @@ logging.basicConfig(filename="/tmp/poly.log", level=logging.DEBUG)
 
 ICON_MAP = [
     {"names": ["discord"], "icon": "", "weight": 5},
-    {"names": ["gnome-control-center"], "icon": "", "weight": 5},
+    {
+        "names": ["gnome-control-center", "gnome-tweaks", "Gnome-tweaks"],
+        "icon": "",
+        "weight": 5,
+    },
     {
         "names": ["URxvt", "Gnome-terminal", "jetbrains-studio", "st"],
         "icon": "",
@@ -39,7 +43,7 @@ ICON_MAP = [
         "icon": "",
         "weight": 3,
     },
-    {"names": ["Nautilus", "org.gnome.Nautilus"], "icon": "", "weight": 3},
+    {"names": ["Nautilus", "org.gnome.Nautilus", "Thunar"], "icon": "", "weight": 3},
 ]
 
 F_KEYS = ["F1", "F2", "F3", "F4"]
