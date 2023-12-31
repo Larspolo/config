@@ -250,7 +250,7 @@ bindsym $mod+Shift+F4 nop
 
 # Set background image
 exec_always --no-startup-id feh --randomize --bg-fill ~/Pictures/wallpapers/*
-exec compton
+exec_always --no-startup-id compton
 
 # Custom autostart applications
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
