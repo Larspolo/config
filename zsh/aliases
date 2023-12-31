@@ -1,20 +1,19 @@
-alias zshconfig="vim ~/.config/zsh/aliases"
-alias i3config="vim ~/.config/i3/config"
-alias ohmyzsh="vim ~/.oh-my-zsh"
-alias dc="docker-compose"
-alias idockers="idockers"
-alias pgologs='~/scripts/pgologs.sh'
-alias dstopall='docker stop $(docker ps -q)'
+# Shortcuts
+alias p="python3"
 alias stfu='sudo shutdown now'
-alias pastebin="curl -F 'clbin=<-' https://clbin.com"
-alias clip="xclip -sel clipboard"
-alias aclip="tee /tmp/clip && cat /tmp/clip | clip"
+alias please="sudo"
+alias plz="sudo"
+
+# Apt
 alias ai='sudo apt install'
 alias au='sudo apt update && sudo apt upgrade'
 alias ac='sudo apt autoclean -y && sudo apt autoremove -y'
+
+# Extra
+alias config="code ~/Documents/config"
+alias pastebin="curl -F 'clbin=<-' https://clbin.com"
+
+# Programming utils
+alias dc="docker-compose"
+alias dstopall='docker stop $(docker ps -q)'
 alias gr='grep -irn --exclude-dir={vendor,node_modules,storage/logs,storage/framework}'
-alias fixstyle="git diff --name-only --cached | tr '\n' ' ' | xargs php -d memory_limit=512M vendor/bin/php-cs-fixer fix $1 -v"
-alias sact="source venv/bin/activate || source ../venv/bin/activate"
-alias p="python3"
-alias please="sudo"
-alias plz="sudo"
