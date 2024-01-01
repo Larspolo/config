@@ -21,7 +21,7 @@ ICON_MAP = [
     {
         "names": ["discord"],
         "icon": "",
-        "weight": HIGH,
+        "weight": HIGHEST,
     },
     {
         "names": ["Slack"],
