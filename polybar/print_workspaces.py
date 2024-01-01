@@ -42,12 +42,12 @@ ICON_MAP = [
     {
         "names": ["google_chrome", "Google-chrome", "chromium", "Chromium"],
         "icon": icons["chrome"],
-        "weight": MEDIUM,
+        "weight": HIGH,
     },
     {
         "names": ["Firefox", "firefox", "Firefox-esr"],
         "icon": icons["firefox"],
-        "weight": MEDIUM,
+        "weight": HIGH,
     },
     # Code
     {
@@ -186,9 +186,14 @@ def get_leaves(ws):
         return []
 
 
-def istr_in_list(string, lst):
+def icontains(string, lst):
     """Check if a string is in the list, case insensitive"""
-    return string.upper() in map(str.upper, lst)
+    return string and string.upper() in map(str.upper, lst)
+
+
+def any_item_icontains(string, lst):
+    """Check if a string is in the list, case insensitive"""
+    return string and any(name.upper() in string.upper() for name in lst)
 
 
 def get_icons(ws):
@@ -196,16 +201,18 @@ def get_icons(ws):
     if not leaves:
         return ["+"]
 
-    icon_maps = [
-        icon_map
-        for c in leaves
-        for icon_map in ICON_MAP
-        if istr_in_list(c.window_class, icon_map["names"])
-        or istr_in_list(c.window_title, icon_map["names"])
-        or (
-            c.window_title and any(name in c.window_title for name in icon_map["names"])
-        )
-    ]
+    icon_maps = []
+    for c in leaves:
+        matching_icons = []
+        for icon_map in ICON_MAP:
+            if icontains(c.window_class, icon_map["names"]):
+                matching_icons.append(icon_map)
+            if icontains(c.window_title, icon_map["names"]):
+                matching_icons.append(icon_map)
+            if any_item_icontains(c.window_title, icon_map["names"]):
+                matching_icons.append(icon_map)
+        if matching_icons:
+            icon_maps.append(max(matching_icons, key=lambda x: x["weight"]))
 
     if not icon_maps:
         return [str(get_index(ws))]
