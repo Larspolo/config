@@ -69,7 +69,7 @@ background = ${c.background}
 modules-left = i4
 modules-center = date
 ;modules-right = temperature battery speed_eth speed_wifi cpu memory 
-modules-right = temperature wifi cpu memory powermenu
+modules-right = temperature wifi cpu memory system-bluetooth-bluetoothctl powermenu
 tray-position = right
 separator = " "
 
@@ -229,6 +229,12 @@ menu-3-0 = log out
 menu-3-0-exec = i3-msg exit
 menu-3-1 = cancel
 menu-3-1-exec = menu-open-0
+
+[module/system-bluetooth-bluetoothctl]
+type = custom/script
+exec = $HOME/.scripts/bluetoothPolybar.sh
+tail = true
+click-left = $HOME/.scripts/bluetoothPolybar.sh --toggle &
 
 [settings]
 screenchange-reload = true
