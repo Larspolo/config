@@ -1,37 +1,69 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 # Altered from https://github.com/polybar/polybar-scripts/tree/master/polybar-scripts/system-bluetooth-bluetoothctl
+
+FILE=$0
+TEXT_COLOR="%{F#c5c8c6}"
+CONNECTED_COLOR="%{F#81a2be}"
+
+get_device_output() {
+    device=$1
+    device_info=$(bluetoothctl info "$device")
+
+    # Use alias and add battery percentage to output where available
+    device_output=$(echo "$device_info" | grep "Alias" | cut -d ' ' -f 2-)
+    device_battery_percent=$(echo "$device_info" | grep "Battery Percentage" | awk -F'[()]' '{print $2}')
+    if [ -n "$device_battery_percent" ]; then
+        device_output="$device_output ($device_battery_percent%)"
+    fi
+
+    echo "$device_output"
+}
+
+print_with_onclick() {
+    action=$1
+    escapedaction="${action//\:/\\\:}"
+    string=$2
+    escapedstring="${string/\:/\\\:}"
+    printf "%%{A1:%s:}%s%%{A}" "$escapedaction" "$escapedstring"
+}
 
 bluetooth_print() {
     bluetoothctl | grep --line-buffered 'Device\|#' | while read -r REPLY; do
         if [ "$(systemctl is-active "bluetooth.service")" = "active" ]; then
             devices_paired=$(bluetoothctl devices Paired | grep Device | cut -d ' ' -f 2)
             counter=0
+
+            # Print main bluetooth icon, white if off, blue if on, clickable to turn on/off
             if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]; then
-                printf "%%{F#c5c8c6}"
+                print_with_onclick "$FILE --toggle-all" "${TEXT_COLOR}"
             else
-                printf "%%{F#81a2be}"
-            fi
-            for device in $devices_paired; do
-                device_info=$(bluetoothctl info "$device")
+                print_with_onclick "$FILE --toggle-all" "${CONNECTED_COLOR}"
+                printf "  "
 
-                if echo "$device_info" | grep -q "Connected: yes"; then
-                    device_output=$(echo "$device_info" | grep "Alias" | cut -d ' ' -f 2-)
-                    device_battery_percent=$(echo "$device_info" | grep "Battery Percentage" | awk -F'[()]' '{print $2}')
+                # When on, print all paired devices, clickable to toggle connection
+                for device in $devices_paired; do
+                    device_info=$(bluetoothctl info "$device")
 
-                    if [ -n "$device_battery_percent" ]; then
-                        device_output="$device_output $device_battery_percent%"
-                    fi
-
+                    # Add seperator
                     if [ $counter -gt 0 ]; then
-                        printf ", %s" "$device_output"
-                    else
-                        printf " %s" "$device_output"
+                        printf "%s | " "$TEXT_COLOR"
                     fi
+
+                    # Print blue if connected, else white
+                    if echo "$device_info" | grep -q "Connected: yes"; then
+                        printf "%s" "$CONNECTED_COLOR"
+                    else
+                        printf "%s" "$TEXT_COLOR"
+                    fi
+
+                    # Use alias and add battery percentage to output where available
+                    device_output=$(get_device_output "$device")
+                    print_with_onclick "$FILE --toggle-device \"$device\"" "$device_output"
 
                     counter=$((counter + 1))
-                fi
-            done
+                done
+            fi
 
             printf '\n'
         else
@@ -40,8 +72,9 @@ bluetooth_print() {
     done
 }
 
-bluetooth_toggle() {
+bluetooth_toggle_all() {
     if bluetoothctl show | grep -q "Powered: no"; then
+        notify-send "Bluetooth" "Turning on"
         bluetoothctl power on >> /dev/null
         sleep 1
 
@@ -50,6 +83,7 @@ bluetooth_toggle() {
             bluetoothctl connect "$line" >> /dev/null
         done
     else
+        notify-send "Bluetooth" "Turning off"
         devices_paired=$(bluetoothctl devices Paired | grep Device | cut -d ' ' -f 2)
         echo "$devices_paired" | while read -r line; do
             bluetoothctl disconnect "$line" >> /dev/null
@@ -59,9 +93,24 @@ bluetooth_toggle() {
     fi
 }
 
+bluetooth_toggle_device() {
+    device=$1
+    device_output=$(get_device_output "$device")
+    if bluetoothctl info "$device" | grep -q "Connected: yes"; then
+        notify-send "Bluetooth" "Disconnecting from $device_output"
+        bluetoothctl disconnect "$device" >> /dev/null
+    else
+        notify-send "Bluetooth" "Connecting to $device_output"
+        bluetoothctl connect "$device" >> /dev/null
+    fi
+}
+
 case "$1" in
-    --toggle)
-        bluetooth_toggle
+    --toggle-all)
+        bluetooth_toggle_all
+        ;;
+    --toggle-device)
+        bluetooth_toggle_device "$2"
         ;;
     *)
         bluetooth_print

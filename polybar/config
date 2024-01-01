@@ -234,7 +234,6 @@ menu-3-1-exec = menu-open-0
 type = custom/script
 exec = $HOME/.scripts/bluetoothPolybar.sh
 tail = true
-click-left = $HOME/.scripts/bluetoothPolybar.sh --toggle &
 
 [settings]
 screenchange-reload = true
