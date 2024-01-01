@@ -4,46 +4,146 @@ import i3ipc
 import sys
 import os
 import logging
+from fontawesome import icons
 
 
 logging.basicConfig(filename="/tmp/poly.log", level=logging.DEBUG)
 
+HIGHEST = 10000
+HIGH = 1000
+MEDIUM = 100
+LOW = 10
+LOWEST = 1
+
+
 ICON_MAP = [
-    {"names": ["discord"], "icon": "", "weight": 5},
+    # Social
+    {
+        "names": ["discord"],
+        "icon": "",
+        "weight": HIGH,
+    },
+    {
+        "names": ["Slack"],
+        "icon": "",
+        "weight": HIGH,
+    },
+    {
+        "names": ["Signal"],
+        "icon": icons["comment"],
+        "weight": HIGH,
+    },
+    {
+        "names": ["Teams", "teams-for-linux", "teams_for_linux"],
+        "icon": icons["users"],
+        "weight": HIGH,
+    },
+    # Browsers
+    {
+        "names": ["google_chrome", "Google-chrome", "chromium", "Chromium"],
+        "icon": icons["chrome"],
+        "weight": MEDIUM,
+    },
+    {
+        "names": ["Firefox", "firefox", "Firefox-esr"],
+        "icon": icons["firefox"],
+        "weight": MEDIUM,
+    },
+    # Code
+    {
+        "names": ["Atom", "vim", "code", "vscode", "Code"],
+        "icon": icons["code"],
+        "weight": HIGHEST,
+    },
+    {
+        "names": ["DBeaver"],
+        "icon": icons["database"],
+        "weight": MEDIUM,
+    },
     {
         "names": ["gnome-control-center", "gnome-tweaks", "Gnome-tweaks"],
-        "icon": "",
-        "weight": 5,
+        "icon": icons["cog"],
+        "weight": MEDIUM,
     },
     {
         "names": ["URxvt", "Gnome-terminal", "jetbrains-studio", "st"],
-        "icon": "",
-        "weight": 1,
+        "icon": icons["terminal"],
+        "weight": LOW,
+    },
+    # Images
+    {
+        "names": ["Pinta", "Gimp"],
+        "icon": icons["magic"],
+        "weight": HIGH,
     },
     {
-        "names": ["google_chrome", "Google-chrome", "chromium", "Chromium"],
-        "icon": "",
-        "weight": 3,
+        "names": ["feh", "nomacs", "Image Lounge"],
+        "icon": icons["images"],
+        "weight": HIGH,
     },
-    {"names": ["Firefox", "firefox"], "icon": "", "weight": 3},
-    {"names": ["Atom", "vim", "code", "vscode", "Code"], "icon": "", "weight": 10},
-    {"names": ["Evince"], "icon": "", "weight": 2},
-    {"names": ["Pinta", "Gimp"], "icon": "", "weight": 3},
-    {"names": ["DBeaver"], "icon": "", "weight": 3},
-    {"names": ["Slack"], "icon": "", "weight": 3},
-    {"names": ["Thunderbird"], "icon": "", "weight": 3},
-    {"names": ["nomacs", "Image Lounge"], "icon": "", "weight": 3},
-    {"names": ["virt-manager", "Virt-manager"], "icon": "", "weight": 3},
-    {"names": ["STACK", "Stack", "stack"], "icon": "", "weight": 3},
-    {"names": ["Signal"], "icon": "", "weight": 3},
-    {"names": ["Remmina", "remmina"], "icon": "RDP", "weight": 3},
-    {"names": ["Bluetooth"], "icon": "", "weight": 3},
+    # Office
     {
-        "names": ["Teams", "teams-for-linux", "teams_for_linux"],
-        "icon": "",
-        "weight": 3,
+        "names": ["libreoffice-writer"],
+        "icon": icons["file-word"],
+        "weight": HIGH,
     },
-    {"names": ["Nautilus", "org.gnome.Nautilus", "Thunar"], "icon": "", "weight": 3},
+    {
+        "names": ["libreoffice-calc"],
+        "icon": icons["file-excel"],
+        "weight": HIGH,
+    },
+    {
+        "names": ["libreoffice-writer"],
+        "icon": icons["file-word"],
+        "weight": HIGH,
+    },
+    {
+        "names": ["libreoffice-impress"],
+        "icon": icons["file-powerpoint"],
+        "weight": HIGH,
+    },
+    {
+        "names": ["libreoffice"],
+        "icon": icons["file"],
+        "weight": MEDIUM,
+    },
+    {
+        "names": ["Evince"],
+        "icon": icons["file-pdf"],
+        "weight": MEDIUM,
+    },
+    # Utils
+    {
+        "names": ["Bluetooth"],
+        "icon": icons["bluetooth-b"],
+        "weight": MEDIUM,
+    },
+    {
+        "names": ["Nautilus", "org.gnome.Nautilus", "Thunar"],
+        "icon": icons["folder"],
+        "weight": MEDIUM,
+    },
+    # Other
+    {
+        "names": ["Thunderbird"],
+        "icon": icons["envelope-open"],
+        "weight": MEDIUM,
+    },
+    {
+        "names": ["stack"],
+        "icon": icons["sync-alt"],
+        "weight": MEDIUM,
+    },
+    {
+        "names": ["remmina"],
+        "icon": icons["laptop"],
+        "weight": MEDIUM,
+    },
+    {
+        "names": ["virt-manager"],
+        "icon": icons["server"],
+        "weight": MEDIUM,
+    },
 ]
 
 F_KEYS = ["F1", "F2", "F3", "F4"]
@@ -86,6 +186,11 @@ def get_leaves(ws):
         return []
 
 
+def istr_in_list(string, lst):
+    """Check if a string is in the list, case insensitive"""
+    return string.upper() in map(str.upper, lst)
+
+
 def get_icons(ws):
     leaves = get_leaves(ws)
     if not leaves:
@@ -95,10 +200,10 @@ def get_icons(ws):
         icon_map
         for c in leaves
         for icon_map in ICON_MAP
-        if (
-            c.window_class in icon_map["names"]
-            or c.window_title in icon_map["names"]
-            or (c.window_title and icon_map.get("names", [])[0] in c.window_title)
+        if istr_in_list(c.window_class, icon_map["names"])
+        or istr_in_list(c.window_title, icon_map["names"])
+        or (
+            c.window_title and any(name in c.window_title for name in icon_map["names"])
         )
     ]
 
