@@ -82,6 +82,9 @@ type = internal/temperature
 thermal-zone = 0
 warn-temperature = 60
 tail = true
+format-background = ${c.background}
+format-foreground = ${c.foreground}
+format-padding = ${globals.padding}
 
 [module/battery]
 type = internal/battery
