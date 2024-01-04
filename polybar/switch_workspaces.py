@@ -139,7 +139,11 @@ if __name__ == "__main__":
 
     i3.on("binding::run", on_binding_run)
     i3.on("workspace::move", refactor_workspaces)
-    for method in ["focus", "close", "move"]:
+    for method in [
+        # "focus",
+        "close",
+        "move",
+    ]:
         i3.on(f"window::{method}", refactor_workspaces)
     try:
         i3.main()
