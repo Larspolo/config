@@ -23,24 +23,16 @@ secondary = #e60053
 alert = #bd2c40
  
 [c]
-black = #282a2e
-black2 = #373b41
-red = #a54242
-red2 = #cc6666
-green = #8c9440
-green2 = #b5bd68
-yellow = #de935f
-yellow2 = #f0c674
-blue = #5f819d
-blue2 = #81a2be
-magenta = #85678f
-magenta2 = #b294bb
-cyan = #5e8d87
-cyan2 = #8abeb7
-white = #c5c8c6
-white2 = #707880
+black = #11101d
+red = #CC0000
+green = #007E33
+yellow = #E8A723
+blue = #216cce
+magenta = #E64769
+cyan = #216cce
+white = #f0f2f5
 
-background = #323234
+background = #11101d
 background-mods = #${c.background}
 border = ${c.background}
 foreground = ${c.white}
@@ -69,7 +61,7 @@ background = ${c.background}
 modules-left = i4
 modules-center = date
 ;modules-right = temperature battery speed_eth speed_wifi cpu memory 
-modules-right = temperature wifi cpu memory system-bluetooth-bluetoothctl powermenu
+modules-right = speed_eth temperature cpu memory system-bluetooth-bluetoothctl powermenu
 tray-position = right
 separator = " "
 
@@ -128,9 +120,9 @@ animation-packetloss-framerate = 500
 
 [module/speed_eth]
 type = internal/network
-interface = enp4s0
+interface = enp0s31f6
 
-interval = 3
+interval = 1
 ;udspeed-minwidth = 5
 ; %downspeed:min:max% and %upspeed:min:max% = 5
 accumulate-stats = true

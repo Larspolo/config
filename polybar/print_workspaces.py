@@ -68,6 +68,11 @@ ICON_MAP = [
     {
         "names": ["URxvt", "Gnome-terminal", "jetbrains-studio", "st"],
         "icon": icons["terminal"],
+        "weight": LOWEST,
+    },
+    {
+        "names": ["test"],
+        "icon": icons["flask"],
         "weight": LOW,
     },
     # Images
@@ -83,18 +88,13 @@ ICON_MAP = [
     },
     # Office
     {
-        "names": ["libreoffice-writer"],
-        "icon": icons["file-word"],
-        "weight": HIGH,
-    },
-    {
         "names": ["libreoffice-calc"],
-        "icon": icons["file-excel"],
+        "icon": icons["table"],
         "weight": HIGH,
     },
     {
         "names": ["libreoffice-writer"],
-        "icon": icons["file-word"],
+        "icon": icons["align-left"],
         "weight": HIGH,
     },
     {
@@ -149,10 +149,13 @@ ICON_MAP = [
 F_KEYS = ["F1", "F2", "F3", "F4"]
 PADDING = "  "
 COLORS = [
-    "#5e8d87",
-    "#85678f",
-    "#de935f",
-    "#8c9440",
+    "#216cce",
+    "#007E33",
+    "#CC0000",
+    "#FF8800",
+    "#E8A723",
+    "#E64769",
+    "#473e62",
 ]
 TEXT_COLOR = "#FFF"
 
