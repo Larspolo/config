@@ -25,4 +25,13 @@ make
 Contributions are welcome. Please open an issue or submit a pull request.
 
 
-
+## TODO
+- [ ] eJournal icon in font
+- [ ] Firefox three style tab
+- [ ] Global color scheme
+  - [ ] Gnome theme
+  - [ ] Gnome terminal
+  - [ ] Firefox profile
+  - [ ] Polybar
+  - [ ] i3
+  - [ ] vscode(?)
