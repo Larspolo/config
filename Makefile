@@ -1,30 +1,15 @@
-configFolders = zsh polybar i3
+configFolders = zsh polybar i3 gtk-3.0 gtk-4.0
 homeConfigFolders = .scripts .fonts
 
 install:
 	@echo "This will overwrite your existing configuration files in your home directory. Press enter to continue"
 	@read -r a
 	@echo "Installing..."
-	for folder in $(configFolders); do \
-		mv -f $(HOME)/.config/$$folder $(HOME)/.config/$$folder.bak; \
-		ln -sf $(PWD)/$$folder $(HOME)/.config/; \
+	@for folder in $(configFolders); do \
+		ln -sfn $(PWD)/$$folder $(HOME)/.config/; \
 	done
-	for folder in $(homeConfigFolders); do \
-		mv -f $(HOME)/$$folder $(HOME)/$$folder.bak; \
-		ln -sf $(PWD)/$$folder $(HOME)/; \
+	@for folder in $(homeConfigFolders); do \
+		ln -sfn $(PWD)/$$folder $(HOME)/; \
 	done
-	ln -sf $(PWD)/.zshrc $(HOME)/.zshrc
-	@echo "Done!"
-
-removeBackups:
-	@echo "Are you sure you want to remove the backups? Press enter to continue"
-	@read -r a
-	@echo "Removing backups..."
-	for folder in $(configFolders); do \
-		rm -rf $(HOME)/.config/$$folder.bak; \
-	done
-	for folder in $(homeConfigFolders); do \
-		rm -rf $(HOME)/$$folder.bak; \
-	done
-	rm -rf $(HOME)/.zshrc.bak
+	@ln -sfn $(PWD)/.zshrc $(HOME)/.zshrc
 	@echo "Done!"

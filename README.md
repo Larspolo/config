@@ -29,9 +29,11 @@ Contributions are welcome. Please open an issue or submit a pull request.
 - [ ] eJournal icon in font
 - [ ] Firefox three style tab
 - [ ] Global color scheme
+  - [x] Dark theme
   - [ ] Gnome theme
   - [ ] Gnome terminal
   - [ ] Firefox profile
   - [ ] Polybar
   - [ ] i3
   - [ ] vscode(?)
+- [ ] Focus workspace better indication
