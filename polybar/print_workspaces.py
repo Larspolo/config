@@ -40,20 +40,30 @@ ICON_MAP = [
     },
     # Browsers
     {
-        "names": ["google_chrome", "Google-chrome", "chromium", "Chromium"],
+        "names": ["google_chrome", "google-chrome", "chromium", "Chromium"],
         "icon": icons["chrome"],
         "weight": HIGH,
     },
     {
-        "names": ["Firefox", "firefox", "Firefox-esr"],
+        "names": ["firefox", "Firefox-esr"],
         "icon": icons["firefox"],
         "weight": HIGH,
     },
     # Code
     {
-        "names": ["Atom", "vim", "code", "vscode", "Code"],
+        "names": ["github"],
+        "icon": icons["github"],
+        "weight": HIGH,
+    },
+    {
+        "names": ["atom", "vim", "vscode"],
         "icon": icons["code"],
-        "weight": HIGHEST,
+        "weight": HIGH,
+    },
+    {
+        "names": ["code"],
+        "icon": icons["code"],
+        "weight": MEDIUM + 1,
     },
     {
         "names": ["DBeaver"],
@@ -73,6 +83,11 @@ ICON_MAP = [
     {
         "names": ["test"],
         "icon": icons["flask"],
+        "weight": LOW,
+    },
+    {
+        "names": ["run-"],
+        "icon": icons["microchip"],
         "weight": LOW,
     },
     # Images
@@ -189,14 +204,20 @@ def get_leaves(ws):
         return []
 
 
+def prepare_str_compare(string):
+    return string and string.upper().replace("-", "_").replace(".", "_")
+
+
 def icontains(string, lst):
     """Check if a string is in the list, case insensitive"""
-    return string and string.upper() in map(str.upper, lst)
+    return string and prepare_str_compare(string) in map(prepare_str_compare, lst)
 
 
 def any_item_icontains(string, lst):
     """Check if a string is in the list, case insensitive"""
-    return string and any(name.upper() in string.upper() for name in lst)
+    return string and any(
+        prepare_str_compare(name) in prepare_str_compare(string) for name in lst
+    )
 
 
 def get_icons(ws):
