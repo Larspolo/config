@@ -163,23 +163,24 @@ ICON_MAP = [
 
 F_KEYS = ["F1", "F2", "F3", "F4"]
 PADDING = "  "
+BLUE = "#216cce"
+GREEN = "#007E33"
+RED = "#CC0000"
+ORANGE = "#FF8800"
+YELLOW = "#E8A723"
+MAGENTA = "#E64769"
+PURPLE = "#473e62"
+WHITE = "#FFFFFF"
 COLORS = [
-    "#216cce",
-    "#007E33",
-    "#CC0000",
-    "#FF8800",
-    "#E8A723",
-    "#E64769",
-    "#473e62",
+    BLUE,
+    GREEN,
+    RED,
+    ORANGE,
+    YELLOW,
+    MAGENTA,
+    PURPLE,
 ]
-TEXT_COLOR = "#FFF"
-
-backgrounds_colors = {
-    "F1": "#5e8d87",
-    "F2": "#85678f",
-    "F3": "#de935f",
-    "F4": "#8c9440",
-}
+TEXT_COLOR = WHITE
 
 
 def name_to_values(name):
@@ -246,11 +247,11 @@ def get_icons(ws):
     ]
 
 
-def set_bg_color(color):
+def color_to_bg(color):
     return "%{{B{}}}".format(color)
 
 
-def set_fg_color(color):
+def color_to_fg(color):
     return "%{{F{}}}".format(color)
 
 
@@ -258,28 +259,42 @@ def set_command_on_click(command, text):
     return "%{{A1:{}:}}{}%{{A}}".format(command, text)
 
 
-def set_text_color(ws):
+def get_index_color(ws):
+    return COLORS[(get_index(ws) - 1) % len(COLORS)]
+
+
+def get_text_color(ws):
+    if not ws:
+        return TEXT_COLOR
+    if ws.urgent:
+        return RED
     if ws.focused:
-        return set_fg_color("#323234")
-    elif ws.urgent:
-        return set_fg_color("#990000")
+        return get_index_color(ws)
     else:
-        return set_fg_color(TEXT_COLOR)
+        return TEXT_COLOR
 
 
-def set_border(ws):
-    i = get_index(ws)
-    current = (i - 1) % len(COLORS)
-    # On the first workspace, we don't want a border
-    if i == 1:
-        return set_bg_color(COLORS[current]) + set_text_color(ws)
+def get_bg_color(ws):
+    if not ws:
+        return COLORS[0]
+    if ws.urgent:
+        return WHITE
+    if ws.focused:
+        return WHITE
+    else:
+        return get_index_color(ws)
 
-    prev = (i - 2) % len(COLORS)
+
+def set_border(prev_ws, ws):
+    current_bg = get_bg_color(ws)
+    current_text = get_text_color(ws)
+
+    prev_bg = get_bg_color(prev_ws)
     return "".join(
         [
-            set_bg_color(COLORS[current]) + set_fg_color(COLORS[prev]),
+            color_to_bg(current_bg) + color_to_fg(prev_bg),
             "",
-            set_bg_color(COLORS[current]) + set_text_color(ws),
+            color_to_bg(current_bg) + color_to_fg(current_text),
         ]
     )
 
@@ -289,7 +304,7 @@ def get_workspace_text(ws):
         "i3-msg workspace {}".format(ws.name),
         PADDING.join(
             [
-                set_border(ws),
+                "",  # Extra padding
                 *get_icons(ws),
                 "",  # Extra padding
             ]
@@ -307,17 +322,19 @@ def print_bar(self=None, e=None):
     sorted_ws = i3.get_workspaces()
     sorted_ws.sort(key=lambda ws: int(ws.name[-1]))
 
+    prev_wss = {section: None for section in F_KEYS}
     for ws in sorted_ws:
         if ws.output != os.environ.get("MONITOR", "eDP-1"):
             continue
-
-        bar[name_to_values(ws.name)[1]] += get_workspace_text(ws)
+        section = name_to_values(ws.name)[1]
+        bar[section] += set_border(prev_wss[section], ws) + get_workspace_text(ws)
+        prev_wss[section] = ws
 
     # Add group styling
     bar = [
         PADDING.join(
             [
-                set_bg_color(COLORS[0]),
+                color_to_bg(COLORS[0]),
                 section,
                 workspaces + reset_colors(),
             ]

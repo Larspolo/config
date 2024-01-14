@@ -37,7 +37,7 @@ Contributions are welcome. Please open an issue or submit a pull request.
   - [ ] i3
   - [ ] vscode(?)
   - [ ] rofi
-- [ ] Focus workspace better indication
+- [x] Focus workspace better indication
 - [ ] Rofi menu
   - [x] Set theme
   - [x] Add the ability to run aliases from the menu
