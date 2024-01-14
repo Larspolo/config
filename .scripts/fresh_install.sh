@@ -19,6 +19,8 @@ flatpak install flathub com.github.PintaProject.Pinta
 flatpak install flathub com.github.IsmaelMartinez.teams_for_linux
 fi
 
+# Backup
+sudo apt install -y restic
 
 if [[ $discord == "y" || $discord == "Y" ]]; then
 sudo wget -qO- discord.deb https://discordapp.com/api/download?platform=linux&format=deb

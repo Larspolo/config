@@ -1,0 +1,2 @@
+rofi.run-command: zsh -i -c '{cmd}'
+rofi.run-list-command: '. ~/.scripts/zsh_aliases_functions.sh'

@@ -4,6 +4,10 @@ alias stfu='sudo shutdown now'
 alias please="sudo"
 alias plz="sudo"
 
+# Backup
+alias rs1='restic -r sftp://polo@192.168.1.98:664//home/polo/backup'
+alias rs2='restic -r sftp://lars@ssh.snowsquad.nl///home/lars/backup'
+
 # Apt
 alias ai='sudo apt install'
 alias au='sudo apt update && sudo apt upgrade'
@@ -17,3 +21,9 @@ alias pastebin="curl -F 'clbin=<-' https://clbin.com"
 alias dc="docker-compose"
 alias dstopall='docker stop $(docker ps -q)'
 alias gr='grep -irn --exclude-dir={vendor,node_modules,storage/logs,storage/framework}'
+
+# Specify node version
+alias node='/home/polo/.nvm/versions/node/v16.20.2/bin/node'
+alias npm='/home/polo/.nvm/versions/node/v16.20.2/bin/npm'
+alias npx='/home/polo/.nvm/versions/node/v16.20.2/bin/npx'
+alias corepack='/home/polo/.nvm/versions/node/v16.20.2/bin/corepack'

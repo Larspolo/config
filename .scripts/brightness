@@ -10,14 +10,20 @@ if [[ $# -eq 0 ]]; then
 fi
 echo -ne "${blue}Please Wait...${reset}\r"
 brightness=$1
-screens=$((sudo ddccontrol -p 1>&1 2>/dev/null) | grep "Device: dev:/dev/")
-worked=0
-while read -r line; do
-    sudo ddccontrol -r 0x10 ${line##* } -w $brightness &> /dev/null
-    if [[ $? -ne 0 ]]; then
-        worked=1
-    fi
-done <<< $screens
+
+# Known screens (faster)
+ddccontrol -r 0x10 dev:/dev/i2c-12 -w $brightness &> /dev/null
+ddccontrol -r 0x10 dev:/dev/i2c-8 -w $brightness &> /dev/null
+
+# This works for all screens, but is slower
+# screens=$((ddccontrol -p 1>&1 2>/dev/null) | grep "Device: dev:/dev/")
+# worked=0
+# while read -r line; do
+#     ddccontrol -r 0x10 ${line##* } -w $brightness &> /dev/null
+#     if [[ $? -ne 0 ]]; then
+#         worked=1
+#     fi
+# done <<< $screens
 
 if [[ worked -eq 0 ]]; then
     echo "${green}Brightness set to $1 ${reset}"

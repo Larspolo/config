@@ -1,0 +1,7 @@
+#!/bin/bash
+toBackup='Pictures Videos Documents Downloads'
+echo -n "Enter vault password: "
+read -s RESTIC_PASSWORD
+echo -e "\nBacking up ${toBackup}..."
+RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r sftp://polo@192.168.1.98:664//home/polo/backup -v backup ${toBackup}
+RESTIC_PASSWORD=$RESTIC_PASSWORD restic -r sftp://lars@ssh.snowsquad.nl///home/lars/larsbackup -v backup ${toBackup}
