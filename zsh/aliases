@@ -21,9 +21,3 @@ alias pastebin="curl -F 'clbin=<-' https://clbin.com"
 alias dc="docker-compose"
 alias dstopall='docker stop $(docker ps -q)'
 alias gr='grep -irn --exclude-dir={vendor,node_modules,storage/logs,storage/framework}'
-
-# Specify node version
-alias node='/home/polo/.nvm/versions/node/v16.20.2/bin/node'
-alias npm='/home/polo/.nvm/versions/node/v16.20.2/bin/npm'
-alias npx='/home/polo/.nvm/versions/node/v16.20.2/bin/npx'
-alias corepack='/home/polo/.nvm/versions/node/v16.20.2/bin/corepack'
