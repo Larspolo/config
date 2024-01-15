@@ -159,10 +159,16 @@ ICON_MAP = [
         "icon": icons["server"],
         "weight": MEDIUM,
     },
+    {
+        "names": ["obs"],
+        "icon": icons["video"],
+        "weight": HIGH,
+    },
 ]
 
 F_KEYS = ["F1", "F2", "F3", "F4"]
 PADDING = "  "
+BLACK = "#11101d"
 BLUE = "#216cce"
 GREEN = "#007E33"
 RED = "#CC0000"
@@ -269,7 +275,7 @@ def get_text_color(ws):
     if ws.urgent:
         return RED
     if ws.focused:
-        return get_index_color(ws)
+        return BLACK
     else:
         return TEXT_COLOR
 
