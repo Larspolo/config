@@ -22,6 +22,6 @@ install:
 	# Allow ddccontrol to run without sudo for current user (used in brightspace change)
 	@sudo ln -sfn $(PWD)/others/30-i2c-tools.rules /etc/udev/rules.d/30-i2c-tools.rules
 	@sudo getent group i2cdev || sudo groupadd i2cdev
-	@sudo usermod -aG i2cdev $(USER)
+	@sudo adduser $(USER) i2cdev
 
 	@echo "Done!"
