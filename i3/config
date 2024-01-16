@@ -21,6 +21,15 @@ bindsym $mod+Return exec gnome-terminal
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id rofi -run-list-command ". ~/.scripts/zsh_aliases_functions.sh" -run-command "zsh -i -c '{cmd}'" -show run
 
+# Scratchpad
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+# Show the first scratchpad window
+bindsym $mod+minus scratchpad show
+exec --no-startup-id terminal -name "scratchpad"
+for_window [instance="scratchpad"] move to scratchpad
+
+
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
