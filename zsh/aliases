@@ -16,6 +16,7 @@ alias ac='sudo apt autoclean -y && sudo apt autoremove -y'
 # Extra
 alias config="code ~/Documents/config"
 alias pastebin="curl -F 'clbin=<-' https://clbin.com"
+alias extract="dtrx"
 
 # Programming utils
 alias dc="docker-compose"

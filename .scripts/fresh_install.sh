@@ -19,6 +19,9 @@ flatpak install flathub com.github.PintaProject.Pinta
 flatpak install flathub com.github.IsmaelMartinez.teams_for_linux
 fi
 
+# Extract
+sudo apt install -y dtrx
+
 # Backup
 sudo apt install -y restic
 
