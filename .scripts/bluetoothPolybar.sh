@@ -3,8 +3,8 @@
 # Altered from https://github.com/polybar/polybar-scripts/tree/master/polybar-scripts/system-bluetooth-bluetoothctl
 
 FILE=$0
-TEXT_COLOR="%{F#f0f2f5}"
-CONNECTED_COLOR="%{F#216cce}"
+TEXT_COLOR="%{F#CC0000}"
+CONNECTED_COLOR="%{F#11101d}"
 
 get_device_output() {
     device=$1

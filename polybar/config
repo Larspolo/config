@@ -42,7 +42,6 @@ secondary = ${c.blue}
 alert = ${c.red}
 
 [globals]
-padding = 2
 offset = 1
 
 [bar/small]
@@ -60,10 +59,15 @@ border-color = ${c.border}
 background = ${c.background}
 modules-left = i4
 modules-center = date
-;modules-right = temperature battery speed_eth speed_wifi cpu memory 
-modules-right = speed_eth temperature cpu memory system-bluetooth-bluetoothctl powermenu
+modules-right = cpu memory speed_eth system-bluetooth-bluetoothctl pulseaudio tray powermenu 
 tray-position = right
-separator = " "
+tray-background = ${c.blue}
+
+[module/tray]
+type = internal/tray
+
+format-margin = 8px
+tray-spacing = 8px
 
 [module/corona]
 type = custom/script
@@ -89,35 +93,6 @@ type = custom/script
 exec = $HOME/.config/polybar/print_workspaces.py
 tail = true
 
-[module/speed_wifi]
-type = internal/network
-interface = enp0s31f6
-
-interval = 3
-;udspeed-minwidth = 5
-;%downspeed:min:max% and %upspeed:min:max% = 5
-accumulate-stats = true
-unknown-as-up = true
-format-background = ${c.background}
-format-foreground = ${c.foreground}
-format-padding = ${globals.padding}
-
-format-connected = <label-connected>
-format-disconnected = <label-disconnected>
-format-packetloss = <animation-packetloss> <label-connected>
-
-label-connected = %downspeed:9% %upspeed:9%
-label-connected-foreground = ${c.foreground}
-label-disconnected = not connected
-label-disconnected-foreground = ${c.alert}
-
-animation-packetloss-0 = ⚠
-animation-packetloss-0-foreground = #ffa64c
-animation-packetloss-1 = 📶
-animation-packetloss-1-foreground = #000000
-; Framerate in milliseconds
-animation-packetloss-framerate = 500
-
 [module/speed_eth]
 type = internal/network
 interface = enp0s31f6
@@ -135,11 +110,10 @@ format-connected = <label-connected>
 format-disconnected = <label-disconnected>
 format-packetloss = <animation-packetloss> <label-connected>
 
-label-connected = %downspeed:9% %upspeed:9%
+label-connected = "%{B#CC0000}%{F#FF8800}  %{B#FF8800}  %{F#11101d}  %{A1:nmcli networking off:}%{A3:nm-connection-editor:}%downspeed% %upspeed%%{A}%{A}"
 label-connected-foreground = ${c.foreground}
-label-disconnected = not connected
+label-disconnected =  "%{B#CC0000}%{F#FF8800}  %{B#FF8800}  %{F#11101d}  %{A1:nmcli networking on:}not connected%{A}"
 label-disconnected-foreground = ${c.alert}
-
 animation-packetloss-0 = ⚠
 animation-packetloss-0-foreground = #ffa64c
 animation-packetloss-1 = 📶
@@ -147,12 +121,18 @@ animation-packetloss-1-foreground = #000000
 ; Framerate in milliseconds
 animation-packetloss-framerate = 500
 
+format-connected-background        = ${c.blue}
+format-connected-foreground        = ${c.yellow}
+format-disconnected-background        = ${c.blue}
+format-disconnected-foreground        = ${c.yellow}
+
 [module/date]
 type = internal/date
 
 format-background = ${c.background}
 format-foreground = ${c.foreground}
 format-padding = ${globals.padding}
+format-offset = ${globals.offset}
 
 interval = 1.0
 date = "  %a %d %b %H:%M  "
@@ -160,12 +140,10 @@ date-alt = "  %A, %d %B %Y  %H:%M:%S  "
 
 [module/cpu]
 type = internal/cpu
-interval = 10
+interval = 1
 
+format-prefix="%{B#11101d}%{F#E64769}  %{B#E64769}  %{F#11101d}  "
 format = <ramp-coreload>
-format-background = ${c.background}
-format-foreground = ${c.foreground}
-format-padding = ${globals.padding}
 
 ramp-coreload-0 = ▁
 ramp-coreload-1 = ▂
@@ -178,10 +156,7 @@ ramp-coreload-7 = █
 
 [module/memory]
 type = internal/memory
-format-background = ${c.background}
-format-foreground = ${c.foreground}
-format-padding = ${globals.padding}
-format-offset = ${globals.offset}
+format-prefix="%{B#E64769}%{F#CC0000}  %{B#CC0000}  %{F#11101d}  "
 interval = 3
 format = <label>
 label = %gb_used%
@@ -189,17 +164,13 @@ label = %gb_used%
 [module/powermenu]
 type = custom/menu
 
-format-offset = ${globals.offset}
-format-background = ${c.background}
+format-background = ${c.blue}
 format-foreground = ${c.foreground}
-format-padding = ${globals.padding}
+format-prefix="%{B#007E33}%{F#216cce}  %{B#216cce}  %{F#11101d}"
 
-label-open = 
-label-open-foreground = ${colors.foreground}
-label-close = 
-label-close-foreground = ${colors.red}
-label-separator = "  "
-label-separator-foreground = ${colors.foreground}
+label-open = "  "
+label-close = "  "
+label-separator = " "
 
 menu-0-0 = 
 menu-0-0-exec = menu-open-1
@@ -207,8 +178,6 @@ menu-0-1 = 
 menu-0-1-exec = menu-open-2
 menu-0-2 = 
 menu-0-2-exec = menu-open-3
-menu-0-3 = 
-menu-0-3-exec = i3lock -c 000000
 
 menu-1-0 = reboot
 menu-1-0-exec = reboot
@@ -220,15 +189,45 @@ menu-2-0-exec = init 0
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
 
-menu-3-0 = log out
-menu-3-0-exec = i3-msg exit
-menu-3-1 = cancel
-menu-3-1-exec = menu-open-0
+
 
 [module/system-bluetooth-bluetoothctl]
 type = custom/script
+format-prefix="%{B#FF8800}%{F#E8A723}  %{B#E8A723}  %{F#11101d}"
+
 exec = $HOME/.scripts/bluetoothPolybar.sh
 tail = true
+
+
+[module/pulseaudio]
+type = internal/pulseaudio
+interval = 1
+
+format-background = ${c.green}
+format-foreground = ${c.foreground}
+
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+; sink = alsa_output.pci-0000_12_00.3.analog-stereo
+
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = true
+
+
+format-volume = "%{B#E8A723}%{F#007E33}  %{B#007E33}  %{F#11101d}<ramp-volume> <label-volume>"
+label-muted =  muted
+label-muted-foreground = ${c.alert}
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+; Reverses the increment/decrement on scroll event. Set this to true if you are
+; using natural scrolling option on your touchpad.
+; New in version 3.7.0
+; Default: false
+reverse-scroll = false
+click-right = pavucontrol
 
 [settings]
 screenchange-reload = true

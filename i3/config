@@ -6,7 +6,6 @@ set $mod Mod4
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 default_border pixel 0
 default_floating_border normal
-
 # Hide borders
 hide_edge_borders none
 
@@ -20,6 +19,8 @@ floating_modifier $mod
 bindsym $mod+Return exec gnome-terminal
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id rofi -run-list-command ". ~/.scripts/zsh_aliases_functions.sh" -run-command "zsh -i -c '{cmd}'" -show run
+bindsym $mod+p exec --no-startup-id pavucontrol
+bindsym $mod+Shift+p exec --no-startup-id firefox --private-window
 
 # Scratchpad
 # Make the currently focused window a scratchpad
@@ -97,7 +98,10 @@ bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
 
 # Open specific applications in floating mode
-for_window [title="alsamixer"] floating enable border pixel 1
+for_window [tiling] border pixel 0
+for_window [floating] border pixel 2
+
+for_window [title="alsamixer"] floating enable
 for_window [title="i3_help"] floating enable sticky enable border normal
 for_window [class="Lightdm-settings"] floating enable
 for_window [class="Pavucontrol"] floating enable
