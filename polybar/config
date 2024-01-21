@@ -24,12 +24,12 @@ alert = #bd2c40
  
 [c]
 black = #11101d
-red = #CC0000
-green = #007E33
-yellow = #E8A723
-blue = #216cce
-magenta = #E64769
-cyan = #216cce
+red = #660000
+green = #003f19
+yellow = #79550d
+blue = #113667
+magenta = #84122a
+cyan = #113667
 white = #f0f2f5
 
 background = #11101d
@@ -52,6 +52,7 @@ font-0 = Ubuntu:size=8;2
 font-1 = "Font Awesome 5":size=8;2
 font-2 = Font Awesome 5:size=8;2
 font-3 = Ubuntu Mono derivative Powerline:size=15;4
+font-4 = Ubuntu Mono derivative Powerline:size=15:weight=bold;4
 border-left-size = ${globals.offset}
 border-top-size = ${globals.offset}
 border-right-size = ${globals.offset}
@@ -110,21 +111,10 @@ format-connected = <label-connected>
 format-disconnected = <label-disconnected>
 format-packetloss = <animation-packetloss> <label-connected>
 
-label-connected = "%{B#CC0000}%{F#FF8800}  %{B#FF8800}  %{F#11101d}  %{A1:nmcli networking off:}%{A3:nm-connection-editor:}%downspeed% %upspeed%%{A}%{A}"
+label-connected = "%{B#660000}%{F#804400}  %{B#804400}  %{F#f0f2f5}%{A3:nm-connection-editor:}%{A1:nmcli networking off:}  %downspeed% %upspeed%%{A}%{A}"
 label-connected-foreground = ${c.foreground}
-label-disconnected =  "%{B#CC0000}%{F#FF8800}  %{B#FF8800}  %{F#11101d}  %{A1:nmcli networking on:}not connected%{A}"
+label-disconnected = "%{B#660000}%{F#804400}  %{B#804400}  %{F#f0f2f5}%{A3:nm-connection-editor:}%{A1:nmcli networking on:}  not connected%{A}%{A}"
 label-disconnected-foreground = ${c.alert}
-animation-packetloss-0 = ⚠
-animation-packetloss-0-foreground = #ffa64c
-animation-packetloss-1 = 📶
-animation-packetloss-1-foreground = #000000
-; Framerate in milliseconds
-animation-packetloss-framerate = 500
-
-format-connected-background        = ${c.blue}
-format-connected-foreground        = ${c.yellow}
-format-disconnected-background        = ${c.blue}
-format-disconnected-foreground        = ${c.yellow}
 
 [module/date]
 type = internal/date
@@ -142,8 +132,7 @@ date-alt = "  %A, %d %B %Y  %H:%M:%S  "
 type = internal/cpu
 interval = 1
 
-format-prefix="%{B#11101d}%{F#E64769}  %{B#E64769}  %{F#11101d}  "
-format = <ramp-coreload>
+format = "%{B#11101d}%{F#84122a}  %{B#84122a}  %{F#f0f2f5}%{A3:gnome-system-monitor:}  <ramp-coreload>%{A}"
 
 ramp-coreload-0 = ▁
 ramp-coreload-1 = ▂
@@ -156,9 +145,8 @@ ramp-coreload-7 = █
 
 [module/memory]
 type = internal/memory
-format-prefix="%{B#E64769}%{F#CC0000}  %{B#CC0000}  %{F#11101d}  "
 interval = 3
-format = <label>
+format = "%{B#84122a}%{F#660000}  %{B#660000}  %{F#f0f2f5}%{A3:gnome-system-monitor:}  <label>%{A}"
 label = %gb_used%
 
 [module/powermenu]
@@ -166,10 +154,10 @@ type = custom/menu
 
 format-background = ${c.blue}
 format-foreground = ${c.foreground}
-format-prefix="%{B#007E33}%{F#216cce}  %{B#216cce}  %{F#11101d}"
+format-prefix="%{B#003f19}%{F#113667}  %{B#113667}  %{F#f0f2f5}"
 
 label-open = "  "
-label-close = "  "
+label-close = ""
 label-separator = " "
 
 menu-0-0 = 
@@ -193,7 +181,7 @@ menu-2-1-exec = menu-open-0
 
 [module/system-bluetooth-bluetoothctl]
 type = custom/script
-format-prefix="%{B#FF8800}%{F#E8A723}  %{B#E8A723}  %{F#11101d}"
+format-prefix="%{B#804400}%{F#79550d}  %{B#79550d}  %{F#f0f2f5}"
 
 exec = $HOME/.scripts/bluetoothPolybar.sh
 tail = true
@@ -215,8 +203,8 @@ format-foreground = ${c.foreground}
 use-ui-max = true
 
 
-format-volume = "%{B#E8A723}%{F#007E33}  %{B#007E33}  %{F#11101d}<ramp-volume> <label-volume>"
-label-muted =  muted
+format-volume = "%{B#79550d}%{F#003f19}  %{B#003f19}  %{F#f0f2f5}<ramp-volume> <label-volume>"
+label-muted = "%{B#79550d}%{F#003f19}  %{B#003f19}  %{F#f0f2f5} muted"
 label-muted-foreground = ${c.alert}
 ramp-volume-0 = 
 ramp-volume-1 = 

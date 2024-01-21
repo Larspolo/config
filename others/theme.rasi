@@ -13,27 +13,27 @@
     lightblack:  #6e69ac;
     //
     // Red
-    red:         #CC0000;
+    red:         #660000;
     lightred:    #ff6666;
     //
     // Green
-    green:       #007E33;
+    green:       #003f19;
     lightgreen:  #3fff8d;
     //
     // Yellow
-    yellow:      #E8A723;
+    yellow:      #79550d;
     lightyellow:     #f3d391;
     //
     // Blue
-    blue:      #216cce;
+    blue:      #113667;
     lightblue:     #8ab5ec;
     //
     // Magenta
-    magenta:      #E64769;
+    magenta:      #84122a;
     lightmagenta:     #f2a3b4;
     //
     // Cyan
-    cyan:      #216cce;
+    cyan:      #113667;
     lightcyan:     #8ab5ec;
     //
     // White

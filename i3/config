@@ -201,7 +201,7 @@ set_from_resource $term_color15    color15
   client.focused          #11101d #11101d #f0f2f5 #f0f2f5
   client.focused_inactive #11101d #11101d #808080 #808080
   client.unfocused        #11101d #11101d #808080 #808080
-  client.urgent           #11101d #11101d #CC0000 #CC0000
+  client.urgent           #11101d #11101d #660000 #660000
   client.placeholder      #11101d #11101d #808080 #808080 
 
   client.background       #11101d
