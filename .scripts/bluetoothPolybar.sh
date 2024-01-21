@@ -3,8 +3,6 @@
 # Altered from https://github.com/polybar/polybar-scripts/tree/master/polybar-scripts/system-bluetooth-bluetoothctl
 
 FILE=$0
-TEXT_COLOR="%{F#CC0000}"
-CONNECTED_COLOR="%{F#11101d}"
 
 get_device_output() {
     device=$1
@@ -28,41 +26,41 @@ print_with_onclick() {
     printf "%%{A1:%s:}%s%%{A}" "$escapedaction" "$escapedstring"
 }
 
+list_devices () {
+    counter=0
+    for device in $1; do
+        device_info=$(bluetoothctl info "$device")
+        # Add seperator
+        if [ $counter -gt 0 ]; then
+            printf " | "
+        fi
+
+        # Use alias and add battery percentage to output where available
+        device_output=$(get_device_output "$device")
+        print_with_onclick "$FILE --toggle-device \"$device\"" "$device_output"
+
+        counter=$((counter + 1))
+    done
+}
+
 bluetooth_print() {
     bluetoothctl | grep --line-buffered 'Device\|#' | while read -r REPLY; do
         if [ "$(systemctl is-active "bluetooth.service")" = "active" ]; then
             devices_paired=$(bluetoothctl devices Paired | grep Device | cut -d ' ' -f 2)
-            counter=0
+            devices_connected=$(bluetoothctl devices Connected | grep Device | cut -d ' ' -f 2)
 
             # Print main bluetooth icon, white if off, blue if on, clickable to turn on/off
             if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]; then
-                print_with_onclick "$FILE --toggle-all" "${TEXT_COLOR}"
-            else
-                print_with_onclick "$FILE --toggle-all" "${CONNECTED_COLOR}"
+                print_with_onclick "$FILE --toggle-all" " off"
+            # If there is a connected device, only show connected devices
+            elif [ -n "$devices_connected" ]; then
+                print_with_onclick "$FILE --toggle-all" ""
                 printf "  "
-
-                # When on, print all paired devices, clickable to toggle connection
-                for device in $devices_paired; do
-                    device_info=$(bluetoothctl info "$device")
-
-                    # Add seperator
-                    if [ $counter -gt 0 ]; then
-                        printf "%s | " "$TEXT_COLOR"
-                    fi
-
-                    # Print blue if connected, else white
-                    if echo "$device_info" | grep -q "Connected: yes"; then
-                        printf "%s" "$CONNECTED_COLOR"
-                    else
-                        printf "%s" "$TEXT_COLOR"
-                    fi
-
-                    # Use alias and add battery percentage to output where available
-                    device_output=$(get_device_output "$device")
-                    print_with_onclick "$FILE --toggle-device \"$device\"" "$device_output"
-
-                    counter=$((counter + 1))
-                done
+                list_devices "$devices_connected"
+            else
+                print_with_onclick "$FILE --toggle-all" ""
+                printf "  "
+                list_devices "$devices_paired"
             fi
 
             printf '\n'
