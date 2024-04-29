@@ -90,6 +90,11 @@ ICON_MAP = [
         "icon": icons["microchip"],
         "weight": LOW,
     },
+    {
+        "names": ["@ejournal"],
+        "icon": icons["cloud-upload-alt"],
+        "weight": LOW,
+    },
     # Images
     {
         "names": ["Pinta", "Gimp"],
@@ -125,6 +130,11 @@ ICON_MAP = [
     {
         "names": ["Evince"],
         "icon": icons["file-pdf"],
+        "weight": MEDIUM,
+    },
+    {
+        "names": ["Simple-scan"],
+        "icon": icons["print"],
         "weight": MEDIUM,
     },
     # Utils

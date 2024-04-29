@@ -15,14 +15,22 @@ alias ac='sudo apt autoclean -y && sudo apt autoremove -y'
 
 # Extra
 alias config="code ~/Documents/config"
+alias condig="code ~/Documents/config"
 alias pastebin="curl -F 'clbin=<-' https://clbin.com | xclip -selection c"
 alias extract="dtrx"
+alias togglevpn="wg-quick up ~/Documents/Desktop-NL-41-1.conf || wg-quick down ~/Documents/Desktop-NL-41-1.conf"
+alias discord-update="$HOME/.scripts/discord-update.sh"
 
 # Programming utils
 alias dc="docker-compose"
 alias dstopall='docker stop $(docker ps -q)'
 alias gr='grep -irn --exclude-dir={vendor,node_modules,storage/logs,storage/framework}'
 alias gcod="gco develop"
+alias d="gco develop"
+alias gcos="gco staging"
+alias s="gco staging"
+alias gcop="gco production"
 
 # eJournal
 alias eshell="cd $HOME/ejournal && make shell"
+alias e="cd $HOME/ejournal"

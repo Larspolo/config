@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+## Author : Aditya Shakya (adi1090x), Lars
+## Github : @adi1090x
+#
+## Rofi   : Launcher (Modi Drun, Run, File Browser, Window)
+#
+## Available Styles
+#
+## style-1     style-2     style-3     style-4     style-5
+## style-6     style-7     style-8     style-9     style-10
+
+dir="$HOME/.config/rofi/launchers/type-7"
+theme='style-6'
+
+## Run
+rofi \
+    -run-list-command ". $HOME/.scripts/zsh_aliases_functions.sh" \
+    -run-command "zsh -i -c '{cmd}'" \
+    -show run \
+    -theme ${dir}/${theme}.rasi

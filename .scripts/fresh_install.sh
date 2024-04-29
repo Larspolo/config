@@ -2,6 +2,7 @@
 
 read -p "i3 (y)? " ithree;
 read -p "discord (y)? " discord;
+read -p "rofi themes (y)? " rofi;
 
 echo "Updating packages...";
 sudo apt update &> /dev/null;
@@ -29,6 +30,14 @@ if [[ $discord == "y" || $discord == "Y" ]]; then
 sudo wget -qO- discord.deb https://discordapp.com/api/download?platform=linux&format=deb
 sudo dpkg -i discord.deb
 rm discord.deb
+fi
+
+if [[ $rofi == "y" || $rofi == "Y" ]]; then
+cd /tmp
+git clone --depth=1 https://github.com/adi1090x/rofi.git
+cd rofi
+chmod +x setup.sh
+./setup.sh
 fi
 
 ############## FINALIZING ####################

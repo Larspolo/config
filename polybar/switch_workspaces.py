@@ -127,9 +127,7 @@ def on_binding_run(self=None, e=None):
         elif e.binding.symbol == "d":
             index = get_last_index(env, section) + 1
             i3.command(f"workspace {values_to_name(env, section, index)}")
-            i3.command(
-                """exec rofi -run-list-command ". ~/.scripts/zsh_aliases_functions.sh" -run-command "zsh -i -c '{cmd}'" -show run"""
-            )
+            i3.command("""exec ~/.scripts/rofi_launcher.sh""")
             refactor_workspaces()
 
 

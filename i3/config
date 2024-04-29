@@ -18,7 +18,7 @@ floating_modifier $mod
 
 bindsym $mod+Return exec gnome-terminal
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id rofi -run-list-command ". ~/.scripts/zsh_aliases_functions.sh" -run-command "zsh -i -c '{cmd}'" -show run
+bindsym $mod+d exec --no-startup-id ~/.scripts/rofi_launcher.sh
 bindsym $mod+p exec --no-startup-id pavucontrol
 bindsym $mod+Shift+p exec --no-startup-id firefox --private-window
 
@@ -252,3 +252,5 @@ exec_always --no-startup-id compton
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id python3 $HOME/.config/polybar/switch_workspaces.py > /tmp/workspace.log
 exec xrandr --output DVI-D-1 --right-of HDMI-1
+exec xrandr --output DVI-D-0 --right-of HDMI-0
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
